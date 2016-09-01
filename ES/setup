@@ -1,0 +1,90 @@
+PUT main/_mapping/course
+{
+    "properties":{
+        "code": {
+            "type":"string",
+            "index":"not_analyzed"
+        },
+        "crn": {
+            "type":"long"
+        },
+        "title": {
+            "type":"string"
+        },
+        "days": {
+            "type":"string",
+            "index":"not_analyzed"
+        },
+        "loc": {
+            "type":"string",
+            "index":"not_analyzed"
+        },
+        "prof": {
+            "type":"string"
+        },
+        "space": {
+            "type":"string",
+            "index":"not_analyzed"
+        },
+        "genEdReqs": {
+            "type":"string"
+        },
+        "distReqs": {
+            "type":"string"
+        }
+    }
+}
+
+-Sample Search-
+GET _search
+{
+   "query": {
+      "bool": {
+          "must": [
+             {
+                 "term": {
+                    "days": {
+                       "value": "TR"
+                    }
+                 }
+             },
+             {
+                 "match_phrase_prefix": {
+                    "time": "03:00"
+                 }
+             }
+          ]
+      }
+   },
+   "filter": {
+       "not": {
+          "filter": {
+              "query": {
+                  "bool": {
+                  "should": [
+                     {"match_phrase_prefix": {
+                     "space": "0"
+                  }},
+                  {
+                      "match_phrase_prefix": {
+                         "space": "-"
+                      }
+                  },
+                  {
+                      "match_phrase_prefix": {
+                         "code": "SOCI"
+                      }
+                  },
+                                    {
+                      "match_phrase_prefix": {
+                         "code": "ENVI"
+                      }
+                  }
+                  ]
+                  }
+              }
+          }
+       }
+   },
+   "size":50
+}

@@ -1,0 +1,3 @@
+node scrape/index.js http://www.macalester.edu/registrar/schedules/2016fall/class-schedule/ localhost:9200
+
+This is the fall 2016 run command.
